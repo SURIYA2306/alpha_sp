@@ -1,0 +1,87 @@
+{% extends 'app/base.html' %}
+{% block title %}Payment{% endblock %}
+
+{% block content %}
+<style>
+    .payment-card {
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 30px;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e2e8f0;
+    }
+
+    .payment-header {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .payment-info {
+        font-size: 1.1rem;
+        color: #4a5568;
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        text-align: left;
+        margin-bottom: 20px;
+    }
+
+    .btn-pay, .btn-cancel {
+        width: 100%;
+        padding: 10px;
+        margin-top: 15px;
+        font-weight: 600;
+    }
+
+    #upi-id-group {
+        display: none;
+    }
+</style>
+
+<div class="payment-card text-center">
+    <div class="payment-header">Payment Page</div>
+    
+    <div class="payment-info">
+        <p>You are paying for <strong>{{ order.products.first.name }}</strong></p>
+        <p>Total: <strong>${{ order.total_amount|floatformat:2 }}</strong></p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="form-label">Payment Method</label>
+            <select name="payment_method" class="form-control" id="paymentMethod" required>
+                <option value="COD">Cash on Delivery</option>
+                <option value="UPI">UPI</option>
+                <option value="Card">Card</option>
+            </select>
+        </div>
+
+        <div id="upi-id-group" class="form-group">
+            <label for="upi_id" class="form-label">Enter UPI ID</label>
+            <input type="text" name="upi_id" id="upi_id" class="form-control" placeholder="example@upi">
+        </div>
+
+        <button type="submit" class="btn btn-success btn-pay">Pay Now</button>
+        <a href="{% url 'home' %}" class="btn btn-secondary btn-cancel">Cancel</a>
+    </form>
+</div>
+
+<script>
+    // Show UPI field only when UPI is selected
+    const paymentSelect = document.getElementById("paymentMethod");
+    const upiGroup = document.getElementById("upi-id-group");
+
+    function toggleUpiField() {
+        upiGroup.style.display = paymentSelect.value === "UPI" ? "block" : "none";
+    }
+
+    paymentSelect.addEventListener("change", toggleUpiField);
+    window.onload = toggleUpiField;
+</script>
+{% endblock %}

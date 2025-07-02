@@ -1,0 +1,14 @@
+{% extends 'app/base.html' %}
+
+{% block title %}
+    {{ product.name }} - Product Detail
+{% endblock %}
+
+{% block content %}
+    <h1>{{ product.name }}</h1>
+    <p><strong>Price:</strong> ${{ product.price }}</p>
+    <p><strong>Description:</strong> {{ product.description }}</p>
+    <p><strong>Stock:</strong> {{ product.stock }}</p>
+    <a href="{% url 'products' %}" class="btn btn-primary">Back to Products</a> 
+    
+{% endblock %}
