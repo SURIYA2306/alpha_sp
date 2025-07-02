@@ -1,0 +1,57 @@
+{% extends 'app/base.html' %}
+
+{% block title %}
+    CART - ONLINE PS SHOP
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-primary">Your Shopping Cart</h1>
+
+    {% if error %}
+        <p class="alert alert-danger">{{ error }}</p>
+    {% endif %}
+
+    {% if cart_items %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>
+                        <a href="{% url 'detail' item.product.id %}">
+    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="max-width: 100px;">
+</a>
+
+                    </td>
+                    <td>{{ item.product.name }}</td>
+                    <td>${{ item.product.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>
+                        <a href="{% url 'add_to_cart' item.product.id %}" class="btn btn-sm btn-success">➕</a>
+                        <a href="{% url 'remove_from_cart' item.product.id %}" class="btn btn-sm btn-danger">➖</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h3>Total: ${{ total_price }}</h3>
+        <a href="{% url 'clear_cart' %}" class="btn btn-warning">Clear Cart</a>
+
+        <!-- Buy Now Form -->
+        {% for item in cart_items %}
+            <a href="{% url 'buy_now' product_id=item.product.id %}" class="btn btn-primary">Buy Now</a>
+        {% endfor %}
+    {% else %}
+        <p class="alert alert-info">Your cart is empty.</p>
+    {% endif %}
+{% endblock %}
+

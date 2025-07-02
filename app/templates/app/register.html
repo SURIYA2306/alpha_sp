@@ -1,0 +1,38 @@
+{% extends 'app/base.html' %}
+
+{% block title %}
+    REGISTER - ONLINE PS SHOP
+{% endblock %}
+{% block content %}
+<h1 style="text-align: center;">Create a New Account</h1>
+    <form method="post" class="form-container">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <label>{{ field.label_tag }}</label>
+            {{ field }}
+
+        {% for error in field.errors %}
+
+        <div style="color: red; font-weight; bold; margin-top: 5px;">
+            {{error}}
+        </div>
+        {% endfor %} 
+    </div>
+        {% endfor %}
+
+        {% if form.non_firld_errors %}
+        <div style="color: darkred; font-size: 14px;">
+
+        {% for error in form.non_firld_errors %}
+        <P>{{error}}</P>
+        {% endfor %}
+        </div>
+        {% endif %} 
+
+        <button type="submit">Register</button>
+        <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+    </form>
+{% endblock %}

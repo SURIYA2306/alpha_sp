@@ -1,0 +1,109 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<style>
+    /* Add some custom styling for the layout */
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .search-bar {
+        flex-grow: 1;
+        max-width: 400px;
+        margin-left: 10px;
+    }
+
+    .product-scroll-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .card-frame {
+        width: 220px;
+    }
+
+    .card-small {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 10px;
+        background-color: #f9f9f9;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product-image {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    .product-name1 {
+        min-height: 40px;
+        font-weight: bold;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .product-price1 {
+        min-height: 24px;
+        color: green;
+        margin-bottom: 10px;
+    }
+
+    .view-detail1 {
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        width: 100%;
+    }
+
+    .view-detail1 .btn {
+        width: 100%;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="header">
+        <h1 class="text-center">PRODUCTS - ONLINE MEDICAL SHOP</h1>
+        <!-- Search bar -->
+        <form method="GET" action="{% url 'products' %}" class="search-bar">
+            <input type="text" name="search" placeholder="Search products..." class="form-control">
+        </form>
+    </div>
+
+    <div class="product-scroll-container">
+        {% for product in products %}
+            <div class="card-frame">
+                <div class="card-small text-center">
+                    <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <div class="product-name1">{{ product.name }}</div>
+                    <div class="product-price1">${{ product.price|floatformat:2 }}</div>
+                    <div class="view-detail1">
+                        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success">Add to Cart</a>
+                        <a href="{% url 'detail' product.id %}" class="btn btn-primary">View Detail</a>
+                        <a href="{% url 'buy_now' product.id %}" class="btn btn-warning">Buy Now</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No products available.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

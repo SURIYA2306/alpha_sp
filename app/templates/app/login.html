@@ -1,0 +1,32 @@
+{% extends 'app/base.html' %}
+{% block title %}Login - ONLINE PS SHOP{% endblock %}
+
+{% block content %}
+<h1 style="text-align: center;">Login to Your Account</h1>
+
+<form method="post" class="form-container">
+    {% csrf_token %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="mb-3">
+        {{ form.username.label_tag }}
+        {{ form.username }}
+    </div>
+    <div class="mb-3">
+        {{ form.password.label_tag }}
+        {{ form.password }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Login</button>
+
+    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+        <a href="{% url 'register' %}">Create Account</a>
+        <a href="{% url 'forgot_password' %}">Forgot Password?</a>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .checkout-card {
+        max-width: 650px;
+        margin: 40px auto;
+        padding: 30px;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e2e8f0;
+    }
+
+    .checkout-header {
+        font-size: 1.75rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .product-info {
+        font-size: 1.1rem;
+        color: #4a5568;
+        margin-bottom: 25px;
+    }
+
+    .form-label {
+        font-weight: 500;
+    }
+
+    .form-control {
+        border-radius: 12px;
+        padding: 10px 15px;
+    }
+
+    .btn-place-order {
+        border-radius: 12px;
+        padding: 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        background-color: #0d6efd;
+        border: none;
+    }
+
+    .btn-place-order:hover {
+        background-color: #084298;
+    }
+
+    .form-inline {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .form-inline select {
+        flex: 0 0 30%;
+    }
+
+    .form-inline input {
+        flex: 1;
+    }
+</style>
+
+<div class="checkout-card">
+    <div class="checkout-header text-center">Checkout</div>
+    <p class="product-info text-center">
+        You are purchasing: <strong>{{ product.name }}</strong><br>
+        <span class="text-success">${{ product.price|floatformat:2 }}</span>
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="name" class="form-label">Full Name</label>
+            <input type="text" name="name" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="country" class="form-label">Country</label>
+            <select name="country" id="country" class="form-control" required onchange="updatePhoneCode()">
+                <option value="">Select Country</option>
+                <option value="India" data-code="+91">India</option>
+                <option value="United States" data-code="+1">United States</option>
+                <option value="United Kingdom" data-code="+44">United Kingdom</option>
+                <option value="Australia" data-code="+61">Australia</option>
+                <option value="Canada" data-code="+1">Canada</option>
+                <option value="Germany" data-code="+49">Germany</option>
+                <option value="France" data-code="+33">France</option>
+                <option value="China" data-code="+86">China</option>
+                <option value="Japan" data-code="+81">Japan</option>
+                <option value="Singapore" data-code="+65">Singapore</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="address" class="form-label">Address</label>
+            <textarea name="address" class="form-control" rows="3" required>{{ profile.address }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <div class="form-inline">
+                <input type="text" id="phoneCode" class="form-control" readonly style="max-width: 80px;" value="+91">
+                <input type="text" name="phone" class="form-control" required>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="pincode" class="form-label">Pincode</label>
+            <input type="text" name="pincode" class="form-control" required>
+        </div>
+
+        <!-- ✅ Payment Method Dropdown -->
+        <div class="mb-4">
+            <label for="payment_method" class="form-label">Payment Method</label>
+            <select name="payment_method" class="form-control" required>
+                <option value="COD">Cash on Delivery</option>
+                <option value="UPI">UPI</option>
+                <option value="Card">Card</option>
+            </select>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-place-order w-100">Place Order</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function updatePhoneCode() {
+        const select = document.getElementById("country");
+        const selectedOption = select.options[select.selectedIndex];
+        const code = selectedOption.getAttribute("data-code") || '';
+        document.getElementById("phoneCode").value = code;
+    }
+</script>
+{% endblock %}
