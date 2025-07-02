@@ -13,9 +13,18 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 
+DEBUG = False
 
+ALLOWED_HOSTS = ['AYYAS_MEDICAL.onrender.com']
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # type: ignore
+
+# For serving static files on Render
+if os.getenv('RENDER'):
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware') # type: ignore
+
 
 
 # Quick-start development settings - unsuitable for production
