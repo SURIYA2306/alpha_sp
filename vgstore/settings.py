@@ -74,7 +74,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-MIDDLEWARE += ['some.middleware.Class']
+# Insert WhiteNoise middleware (must be after SecurityMiddleware)
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')  # type: ignore
 
 
 ROOT_URLCONF = 'vgstore.urls'
