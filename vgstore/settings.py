@@ -75,7 +75,7 @@ MIDDLEWARE = [
 ]
 
 # Insert WhiteNoise middleware (must be after SecurityMiddleware)
-MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')  # type: ignore
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')  
 
 
 ROOT_URLCONF = 'vgstore.urls'
