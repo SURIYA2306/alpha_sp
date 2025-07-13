@@ -74,6 +74,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+MIDDLEWARE += ['some.middleware.Class']
+
+
 ROOT_URLCONF = 'vgstore.urls'
 
 TEMPLATES = [
@@ -135,8 +138,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
