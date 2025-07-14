@@ -16,7 +16,7 @@ SECRET_KEY = 'django-insecure-^5^hf-g@@_c3@lbdu=pf_nz%td(=#!!a(@@zb*=@rcoutg5n4q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'AYYAS_MEDICAL.onrender.com']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
